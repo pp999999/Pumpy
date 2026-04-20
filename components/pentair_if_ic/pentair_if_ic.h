@@ -6,7 +6,9 @@
 #include "esphome/components/sensor/sensor.h"
 #include "esphome/components/text_sensor/text_sensor.h"
 #include "esphome/components/switch/switch.h"
+#ifdef USE_NUMBER
 #include "esphome/components/number/number.h"
+#endif
 #include "esphome/components/uart/uart.h"
 #include "esphome/core/automation.h"
 #include "esphome/core/helpers.h"
@@ -32,7 +34,9 @@ class PentairIfIcComponent : public PollingComponent, public uart::UARTDevice {
   SUB_TEXT_SENSOR(ic_debug)
   SUB_SWITCH(takeover_mode)
   SUB_SWITCH(pump_run)
+#ifdef USE_NUMBER
   SUB_NUMBER(swg_percent)
+#endif
   SUB_SENSOR(salt_ppm)
   SUB_SENSOR(water_temp)
   SUB_SENSOR(ic_status)
