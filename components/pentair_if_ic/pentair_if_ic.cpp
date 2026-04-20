@@ -26,7 +26,9 @@ void PentairIfIcComponent::dump_config() {
   LOG_TEXT_SENSOR("  ", "IC_VersionTextSensor", this->ic_version_text_sensor_);
   LOG_SWITCH("  ", "TakeoverModeSwitch", this->takeover_mode_switch_);
   LOG_SWITCH("  ", "PumpRunSwitch", this->pump_run_switch_);
+#ifdef USE_NUMBER
   LOG_NUMBER("  ", "SWGPercentNumber", this->swg_percent_number_);
+#endif
   LOG_SENSOR("  ", "WaterTempSensor", this->water_temp_sensor_);
   LOG_SENSOR("  ", "SaltPPMSensor", this->salt_ppm_sensor_);
   LOG_SENSOR("  ", "IC_ErrorSensor", this->ic_error_sensor_);
@@ -130,8 +132,10 @@ void PentairIfIcComponent::read_all_chlorinator_info() {
     this->ic_last_loop_timestamp_ = millis();
     if (this->takeover_mode_switch_ != nullptr && this->takeover_mode_switch_->state) {
       this->ic_takeover_();
+#ifdef USE_NUMBER
       if (this->swg_percent_number_ != nullptr)
         this->ic_set_percent_(this->swg_percent_number_->state);
+#endif
     }
     this->get_ic_version_();
     this->get_ic_temp_();
@@ -144,8 +148,10 @@ void PentairIfIcComponent::refresh_chlorinator() {
   this->ic_last_loop_timestamp_ = millis();
   if (this->takeover_mode_switch_ != nullptr && this->takeover_mode_switch_->state) {
     this->ic_takeover_();
+#ifdef USE_NUMBER
     if (this->swg_percent_number_ != nullptr)
       this->ic_set_percent_(this->swg_percent_number_->state);
+#endif
   }
   this->get_ic_version_();
   this->get_ic_temp_();
